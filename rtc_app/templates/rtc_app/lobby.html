@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+</head>
+<body>
+    {{group_name | json_script:"group-name"}}
+    <h1>Lets Chat {{group_name}}</h1>
+    <div id="message"></div>
+    {% for chat in chats %}
+    <p>{{chat}}</p>
+    {% endfor %}
+    <form action="" id="form">
+        <input type="text" name="message">
+        <input type="submit" value="Send">
+    </form>
+    <script type="text/javascript">
+        const group_name= JSON.parse(document.getElementById("group-name").textContent)
+        // let url= 'ws://127.0.0.1:8000/ws/socket-server/'
+        // let url= 'ws://' + window.location.host + '/ws/sockets-server/' + group_name + '/'
+
+        const chatSocket= new WebSocket('ws://127.0.0.1:8000/ws/socket-server/' + group_name + '/')
+
+        chatSocket.onopen = function(e){
+            console.log('ws opened....')
+            // chatSocket.send("Message from client!!")
+        }
+
+        chatSocket.onmessage= function(e){
+            console.log('message recieved from server!!', e)
+            // let data= e.data
+            let data= JSON.parse(e.data)
+            // let messages= document.getElementById('message').innerText= data.message
+            let messages= document.getElementById('message')
+            let newDiv = document.createElement("div")
+            newDiv.innerHTML = `<p>${data.user+ ' : ' + data.message}</p>`
+            messages.insertAdjacentElement('beforeend', newDiv)
+            console.log(data)
+        }
+        chatSocket.onerror= function(e){
+            console.log('Error on server', e)
+        }
+        chatSocket.onclose= function(e){
+            console.log('socket closed', e)
+        }
+
+        let form= document.getElementById('form')
+        form.addEventListener('submit', (e)=>{
+            e.preventDefault()
+            let message= e.target.message.value
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }))
+            form.reset()
+        })
+
+        // or using events as::
+        // chatSocket.addEventListener('open', ()=>{
+        //     console.log('ws opened....')
+        //     chatSocket.send("Message from client!!")
+        // })
+    </script>
+</body>
+</html>
