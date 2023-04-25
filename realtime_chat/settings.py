@@ -27,6 +27,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'authentication.CustomUser'
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT=[
+    'application/json'
+]
+CELERY_RESULT_SERIALIZER= 'json'
+CELERY_TASK_SERIALIZER= 'json'
+CELERY_BEAT_SCHEDULE = {
+    'flush-chat-database': {
+        'task': 'rtc_app.tasks.flush_chat_database',
+        'schedule': 5*60,  # 12 hours in seconds
+    },
+}
 
 # Application definition
 
@@ -43,6 +58,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rtc_app',
+    'authentication',
+    # 'coin_base',
 ]
 ASGI_APPLICATION= 'realtime_chat.asgi.application'
 
@@ -69,19 +86,19 @@ ROOT_URLCONF = 'realtime_chat.urls'
 #     }
 # }
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
-    },
-}
 # CHANNEL_LAYERS = {
 #     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [("172.26.2.48", 6379)],
-#         },
+#         "BACKEND": "channels.layers.InMemoryChannelLayer",
 #     },
 # }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 TEMPLATES = [
