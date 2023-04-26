@@ -15,6 +15,9 @@ def index(request):
             messages.info(request, "Group with this name already exists!")
             return redirect('/')
         else:
+            # group= GroupModel.objects.filter(name= group_name).first()
+            group= GroupModel(name= group_name)
+            group.save()
             return redirect('/'+ group_name + '/')
 
 
@@ -23,17 +26,19 @@ def index(request):
 
 def lobby(request, group_name):
     group_name= slugify(group_name)
-    group= GroupModel.objects.filter(name= group_name).first()
+    group= GroupModel.objects.filter(group_id=group_name).first()
+    
     chats= []
     
     if group:
         chats= ChatModel.objects.filter(group= group)
-
     else:
-        group= GroupModel(name= group_name)
-        group.save();
+        return redirect('/')
 
     return render(request, "rtc_app/lobby.html", {'group_name': group_name, 'chats': chats})
+
+def profile(request):
+    return render(request, 'rtc_app/profile.html')
 
 def transaction_list(request):
     transactions = Transaction.objects.all()

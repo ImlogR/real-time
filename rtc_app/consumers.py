@@ -2,14 +2,13 @@ import json
 from channels.generic.websocket import JsonWebsocketConsumer, AsyncJsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from .models import *
+from channels.layers import get_channel_layer
 
 from .filtration import word_filter, simi_percentage
 
 from .spam_detection import spammer
 
 from .coin import create_coin, get_coin_data, syn_get_coin_data, tran_data_to_send, transaction_trigger, create_transaction
-
-from channels.db import database_sync_to_async
 
 from asgiref.sync import sync_to_async
 import random
@@ -114,7 +113,7 @@ class ChatConsumer(JsonWebsocketConsumer):
     def receive_json(self, content, **kwargs):
         print('message received', content)
 
-        group= GroupModel.objects.get(name= self.group_name)
+        group= GroupModel.objects.get(group_id=self.group_name)
         if self.scope['user'].is_authenticated:
             print("coin data", get_coin_data(self.scope['user'].email))
             if not spammer(self.scope['user'].first_name):

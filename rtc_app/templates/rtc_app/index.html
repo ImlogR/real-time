@@ -4,13 +4,13 @@ lobby
 {% endblock %}
 {% block content %}
 
-
+{% load static %}
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="logo.png" alt="Group Chat Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
+            <img src="{% static 'images/download.jpeg' %}" alt="Group Chat Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
             Group Chat
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -45,7 +45,7 @@ lobby
                 <div class="h2 text-center mb-3">Create New Group</div>
                 <div class="input-group mb-3">
                     <input type="text" name="group_name" class="form-control p-4" placeholder="Enter group name"
-                        aria-label="Enter group name" aria-describedby="basic-addon2">
+                        aria-label="Enter group name" aria-describedby="basic-addon2" required>
                     <div class="input-group-append">
                         <button class="btn btn-primary btn-lg h-100" type="submit">Create</button>
                     </div>
@@ -78,7 +78,7 @@ lobby
                 <span class="badge badge-success position-absolute" style="top:-0.5rem; right: 1rem;">123+ online</span>
                 <div class="card-body">
                     <div class="card-title h4 mb-4">Student Network</div>
-                    <a href="/{{group.name}}" class="btn btn-primary btn-sm">Enter Group</a>
+                    <a class="btn btn-primary btn-sm">Enter Group</a>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@ lobby
                 <span class="badge badge-success position-absolute" style="top:-0.5rem; right: 1rem;">123+ online</span>
                 <div class="card-body">
                     <div class="card-title h4 mb-4">{{group.name}}</div>
-                    <a href="/{{group.name}}" class="btn btn-primary btn-sm">Enter Group</a>
+                    <a href="/{{group.group_id}}" class="btn btn-primary btn-sm">Enter Group</a>
                 </div>
             </div>
         </div>

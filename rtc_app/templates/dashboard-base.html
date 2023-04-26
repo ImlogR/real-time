@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,15 +18,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css" rel="stylesheet" />
 
     <style>
-       
-
         body {
             background-color: #fbfbfb;
         }
 
         @media (min-width: 991.98px) {
             main {
-                padding-left: 240px;
+                padding-left: 400px;
             }
         }
 
@@ -35,10 +34,8 @@
             top: 0;
             bottom: 0;
             left: 0;
-            padding: 58px 0 0;
-            /* Height of navbar */
             box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-            width: 240px;
+            width: 400px;
             z-index: 600;
         }
 
@@ -60,7 +57,6 @@
             padding-top: 0.5rem;
             overflow-x: hidden;
             overflow-y: auto;
-            /* Scrollable contents if viewport is shorter than content. */
         }
     </style>
 
@@ -75,11 +71,14 @@
         <!-- Sidebar -->
         <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
             <div class="position-sticky">
-                <div class="list-group list-group-flush mx-3 mt-4">
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
-                        <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple active">
+                <div class="list-group list-group-flush">
+                    <div class="p-3  py-5 text-center border-bottom">
+                        <img style="object-fit: contain; height: 4rem;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmg6VbQr7k4bE8m1sGjODK19nEZn-UKVChBg&usqp=CAU" alt="">
+                    </div>
+                    <!-- <a href="" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                        <i class="fas fa-tachometer-alt fa-fw me-3"></i><span></span>
+                    </a> -->
+                    <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple active">
                         <i class="fas fa-chart-area fa-fw me-3"></i><span>Webiste traffic</span>
                     </a>
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
@@ -100,42 +99,32 @@
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
                             class="fas fa-users fa-fw me-3"></i><span>Users</span></a>
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-money-bill fa-fw me-3"></i><span>Sales</span></a>
+                            class="fas fa-money-bill fa-fw me-3"></i><span>Sales</span></a> -->
                 </div>
             </div>
         </nav>
         <!-- Sidebar -->
 
         <!-- Navbar -->
-        <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light shadow-0 fixed-top">
             <!-- Container wrapper -->
-            <div class="container-fluid">
-                <!-- Toggle button -->
-                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#sidebarMenu"
-                    aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
-
-                <!-- Brand -->
-                <a class="navbar-brand" href="#">
-                    <img src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png" height="25" alt=""
-                        loading="lazy" />
-                </a>
-                <!-- Search form -->
-                <form class="d-none d-md-flex input-group w-auto my-auto">
-                    <input autocomplete="off" type="search" class="form-control rounded"
-                        placeholder='Search (ctrl + "/" to focus)' style="min-width: 225px" />
-                    <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
-                </form>
-
+            <div class="container-fluid d-flex justify-content-between">
+                    <!-- Toggle button -->
+                    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                        data-mdb-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                   
+                
                 <!-- Right links -->
-                <ul class="navbar-nav ms-auto d-flex flex-row">
+                <ul class="navbar-nav ms-auto d-flex flex-row border px-3 py-1 rounded-9">
                     <!-- Notification dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#"
                             id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-bell"></i>
-                            <span class="badge rounded-pill badge-notification bg-danger">1</span>
+                            <span class="badge rounded-pill badge-notification bg-danger">4</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="#">Some news</a></li>
@@ -147,20 +136,20 @@
                     </li>
 
                     <!-- Icon -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link me-3 me-lg-0" href="#">
                             <i class="fas fa-fill-drip"></i>
                         </a>
-                    </li>
+                    </li> -->
                     <!-- Icon -->
                     <li class="nav-item me-3 me-lg-0">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="https://github.com/ImlogR/real-time">
                             <i class="fab fa-github"></i>
                         </a>
                     </li>
 
                     <!-- Icon dropdown -->
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdown"
                             role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                             <i class="united kingdom flag m-0"></i>
@@ -198,7 +187,7 @@
                                 <a class="dropdown-item" href="#"><i class="portugal flag"></i>Português</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
 
                     <!-- Avatar -->
                     <li class="nav-item dropdown">
@@ -222,14 +211,21 @@
     <!--Main Navigation-->
 
     <!--Main layout-->
-    <main style="margin-top: 58px">
-        <div>
-            {% block content %}
-            {% endblock %}
+    <main>
+        <div class="row">
+            <div class="col-lg-8">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div class="col-lg-4">
+                {% block side_content %}
+                {% endblock %}
+            </div>
+           
         </div>
     </main>
     <!--Main layout-->
-  
+
 
     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>

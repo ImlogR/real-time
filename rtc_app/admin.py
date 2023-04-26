@@ -11,6 +11,11 @@ class GroupModelAdmin(admin.ModelAdmin):
     list_display = ['group_id', 'name']
 
 
+@admin.register(Wallet)
+class walletAdmin(admin.ModelAdmin):
+    list_display = ['wallet_id', 'owner', 'balance']
+
+
 @admin.register(Coin)
 class CoinAdmin(admin.ModelAdmin):
     list_display= ['coin_id','owner','created_at', 'prev_coin', 'next_coin']

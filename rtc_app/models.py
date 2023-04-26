@@ -6,6 +6,9 @@ import hashlib
 class GroupModel(models.Model):
     group_id= models.UUIDField(primary_key=True, default= uuid.uuid4)
     name= models.CharField(max_length=255)
+    created_at= models.DateTimeField(auto_now_add=True, null=True)
+    picture= models.ImageField(null=True)
+    slug= models.SlugField(null=True)
 
     def __str__(self):
         return self.name
@@ -20,6 +23,9 @@ class ChatModel(models.Model):
     def __str__(self):
         return self.messages
 
+class ActiveUsers(models.Model):
+    group= models.ForeignKey(GroupModel, on_delete=models.CASCADE)
+    users= models.ForeignKey(ChatModel, on_delete=models.CASCADE)
 
 class Coin(models.Model):
     class Meta:
@@ -77,3 +83,20 @@ class Transaction(models.Model):
         previous_hash = previous_transaction.hash if previous_transaction else None
         self.hash = self.generate_hash(previous_hash)
         super().save(*args, **kwargs)
+
+class Wallet(models.Model):
+    wallet_id= models.CharField(max_length=256, primary_key=True)
+    owner= models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True)
+    balance= models.PositiveIntegerField()
+
+    def get_coin_count(owner):
+        coin_count= Coin.objects.filter(owner= owner)
+        return coin_count
+    
+    def save(self, *args, **kwargs):
+        self.wallet_id= uuid.uuid4().int & (1 << 32)-1
+        self.balance= self.get_coin_count(self.owner)
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"Wallet of {self.owner.email}"
