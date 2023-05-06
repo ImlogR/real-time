@@ -30,6 +30,9 @@ class MyAbstractBaseUser(AbstractBaseUser):
 
 class CustomUser(MyAbstractBaseUser, PermissionsMixin):
     middle_name= models.CharField(max_length=200, blank=True, null=True)
+    phone= models.CharField(max_length=10, blank=True, null=True)
+    address= models.CharField(max_length=256, blank=True, null=True)
+    profile_image= models.ImageField(default="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS274bc75lVP83oHXqnPlMrx3fH3ZsUr2T7MQ&usqp=CAU", blank=True)
 
     def __str__(self):
         return str(self.email)

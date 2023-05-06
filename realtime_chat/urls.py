@@ -15,9 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('authentication.api_urls')),
     path('', include("rtc_app.urls")),
-    # path('coin/', include("coin_base.urls")),
 ]
