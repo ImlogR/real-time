@@ -14,23 +14,24 @@ def index(request):
     else:
         receivers= CustomUser.objects.all()
     if request.method== 'POST':
-        group_name= slugify(request.POST['group_name'])
-        if GroupModel.objects.filter(name=group_name).exists():
+        group_name= request.POST['group_name']
+        group_slug= slugify(request.POST['group_name'])
+        if GroupModel.objects.filter(slug=group_slug).exists():
             messages.info(request, "Group with this name already exists!")
             return redirect('/')
         else:
             # group= GroupModel.objects.filter(name= group_name).first()
-            group= GroupModel(name= group_name)
+            group= GroupModel(name= group_name, slug= group_slug)
             group.save()
-            return redirect('/'+ group_name + '/')
+            return redirect('/'+ group_slug + '/')
 
 
     else:
         return render(request, "rtc_app/index.html", {'groups': groups, 'coins':coins, 'receivers':receivers})
 
 def lobby(request, group_name):
-    group_name= slugify(group_name)
-    group= GroupModel.objects.filter(group_id=group_name).first()
+    group_slug= slugify(group_name)
+    group= GroupModel.objects.filter(slug=group_slug).first()
     
     chats= []
     
@@ -39,7 +40,7 @@ def lobby(request, group_name):
     else:
         return redirect('/')
 
-    return render(request, "rtc_app/lobby.html", {'group_name': group_name, 'chats': chats})
+    return render(request, "rtc_app/lobby.html", {'group_name': group.name, 'chats': chats})
 
 @login_required
 def profile(request):

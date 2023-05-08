@@ -51,7 +51,7 @@ class VerifyOTP(APIView):
                         'message': 'something went wrong',
                         'data': 'invalid otp`'
                     })
-                user= user.first
+                user= user.first()
                 user.is_verified= True
                 user.save()
 
@@ -69,6 +69,11 @@ class VerifyOTP(APIView):
 
         except Exception as e:
             print(e)
+            return Response({
+                'status': 400,
+                'message': 'something went wrong',
+                'data': 'server error'
+            })
 
 class UserRegistrationViewset(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
@@ -82,7 +87,8 @@ class UserRegistrationViewset(viewsets.ModelViewSet):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        return Response({'msg':'Registration Successful'}, status=status.HTTP_201_CREATED)
+        send_otp_via_email(email=user.email)
+        return Response({'msg':'Registration succesful!! Check email to Verify!!'}, status=status.HTTP_201_CREATED)
     
 class LoginViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()

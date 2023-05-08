@@ -113,7 +113,7 @@ class ChatConsumer(JsonWebsocketConsumer):
     def receive_json(self, content, **kwargs):
         print('message received', content)
 
-        group= GroupModel.objects.get(group_id=self.group_name)
+        group= GroupModel.objects.get(slug=self.group_name)
         if self.scope['user'].is_authenticated:
             print("coin data", get_coin_data(self.scope['user'].email))
             if not spammer(self.scope['user'].first_name):
