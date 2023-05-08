@@ -60,12 +60,14 @@ INSTALLED_APPS = [
 
     'rtc_app',
     'authentication',
+    "corsheaders",
     'rest_framework'
     # 'coin_base',
 ]
 ASGI_APPLICATION= 'realtime_chat.asgi.application'
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django_dump_die.middleware.DumpAndDieMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -182,3 +184,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'bloggingworkshop046@gmail.com'
 EMAIL_HOST_PASSWORD = 'hngn nrxh asps pitt'
+CORS_ALLOW_ALL_ORIGINS: True
