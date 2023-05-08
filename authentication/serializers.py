@@ -26,24 +26,3 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
-
-class UserLoginSerializer(serializers.ModelSerializer):
-    
-    email = serializers.CharField()
-    password = serializers.CharField()
-
-    
-    class Meta:
-        model = CustomUser
-        fields = ['email','password'] #username is email
-        
-    
-    def validate(self, data):
-        user = authenticate(**data)
-        if user:
-            data['user']= user
-            return data
-        raise serializers.ValidationError("Incorrect email and password")
-    
-    def create(self, validated_data):
-        return validated_data['user']
