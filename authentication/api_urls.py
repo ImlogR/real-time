@@ -12,4 +12,6 @@ router.register(r'register', UserRegistrationViewset, basename='User')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('user/register/', RegisterApi.as_view()),
+    path('user/verify/', VerifyOTP.as_view()),
 ]

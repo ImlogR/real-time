@@ -1,11 +1,74 @@
 from rest_framework import viewsets
-from .serializers import UserLoginSerializer, UserRegistrationSerializer
+from .serializers import UserLoginSerializer, UserRegistrationSerializer, UserSerializer, VerifyAccountSerializer
 from .models import CustomUser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate, login
+from rest_framework.views import APIView
+from .emails import send_otp_via_email
 
+class RegisterApi(APIView):
+    def post(self, request):
+        try:
+            data= request.data
+            serializer= UserSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                send_otp_via_email(email=serializer.data['email'])
+                return Response({
+                    'status':200,
+                    'message': 'Registration Successful check email!',
+                    'data': serializer.data
+                })
+            return Response({
+                'status': 400,
+                'message': 'something went wrong',
+                'data': serializer.errors
+            })
+        except Exception as e:
+            print(e)
+
+class VerifyOTP(APIView):
+    def post(self, request):
+        try:
+            data= request.data
+            serializer= VerifyAccountSerializer(data= data)
+
+            if serializer.is_valid():
+                email = serializer.data['email']
+                otp= serializer.data['otp']
+                user= CustomUser.objects.filter(email= email)
+                if not user.exists:
+                    return Response({
+                        'status': 400,
+                        'message': 'something went wrong',
+                        'data': 'invalid email`'
+                    })
+                if user[0].otp != otp:
+                    return Response({
+                        'status': 400,
+                        'message': 'something went wrong',
+                        'data': 'invalid otp`'
+                    })
+                user= user.first
+                user.is_verified= True
+                user.save()
+
+                return Response({
+                    'status':200,
+                    'message': 'Account Verified!!',
+                    'data': serializer.data
+                })
+            
+            return Response({
+                'status': 400,
+                'message': 'something went wrong',
+                'data': serializer.errors
+            })
+
+        except Exception as e:
+            print(e)
 
 class UserRegistrationViewset(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
@@ -22,7 +85,6 @@ class UserRegistrationViewset(viewsets.ModelViewSet):
         return Response({'msg':'Registration Successful'}, status=status.HTTP_201_CREATED)
     
 class LoginViewSet(viewsets.ModelViewSet):
-    
     queryset = CustomUser.objects.all()
     serializer_class = UserLoginSerializer
     permission_classes = [AllowAny]

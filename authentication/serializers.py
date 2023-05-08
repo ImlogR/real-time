@@ -3,6 +3,18 @@ from rest_framework import serializers
 from .models import CustomUser
 from django.contrib.auth import authenticate
 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= CustomUser
+        fields= ['email', 'password', 'is_verified']
+
+
+class VerifyAccountSerializer(serializers.Serializer):
+    email= serializers.EmailField()
+    otp= serializers.CharField()
+    
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
@@ -35,7 +47,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ['email','password'] #username is email
+        fields = ['email','password', 'is_verified'] #username is email
         
     
     def validate(self, data):
