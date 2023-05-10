@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'rtc_app',
     'authentication',
     "corsheaders",
-    'rest_framework'
+    'rest_framework',
+    'rest_framework_simplejwt'
     # 'coin_base',
 ]
 ASGI_APPLICATION= 'realtime_chat.asgi.application'

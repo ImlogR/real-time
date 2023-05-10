@@ -43,7 +43,8 @@ def lobby(request, group_name):
 
     return render(request, "rtc_app/lobby.html", {'group_name': group.name, 'chats': chats})
 
-@login_required
+
+@login_required(login_url="/")
 def profile(request):
     profile_detail= CustomUser.objects.get(email= request.user.email)
     coin_details= Coin.objects.filter(owner= profile_detail)
