@@ -45,7 +45,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ['email','password', 'is_verified'] #username is email
+        fields = ['email','password'] #username is email
         
     
     def validate(self, data):
