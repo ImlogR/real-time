@@ -7,7 +7,17 @@ from rest_framework import status
 from django.contrib.auth import authenticate, login
 from rest_framework.views import APIView
 from .emails import send_otp_via_email
+from rest_framework_simplejwt.tokens import RefreshToken
 
+
+
+
+def get_tokens_for_user(user):
+  refresh = RefreshToken.for_user(user)
+  return {
+      'refresh': str(refresh),
+      'access': str(refresh.access_token),
+  }
 class RegisterApi(APIView):
     def post(self, request):
         try:
@@ -106,11 +116,14 @@ class LoginViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data['email']
         password = serializer.validated_data['password']
+        user= CustomUser.objects.get(email=email)
 
-        user = authenticate(request, email=email, password=password)
+        # user = authenticate(request, email=email, password=password)
         if user is None:
             return Response({'error': 'Invalid username/password'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        else:
+            # login(request, user)
+            token = get_tokens_for_user(user)
 
-        login(request, user)
-
-        return Response({'msg':f'Login Success', 'user':user.email}, status=status.HTTP_200_OK)
+            return Response({'token':token,'msg':f'Login Success', 'user':user.email}, status=status.HTTP_200_OK)

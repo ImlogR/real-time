@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .manager import MyUserManager
+from uuid import uuid4
 # Create your models here.
 
 class MyAbstractBaseUser(AbstractBaseUser):
-    email = models.EmailField(unique=True, max_length=255, primary_key=True)
+    uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    email = models.EmailField(unique=True, max_length=255)
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     is_active = models.BooleanField(default=True)

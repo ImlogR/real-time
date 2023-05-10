@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os
 
@@ -171,8 +172,10 @@ USE_TZ = True
 
 # STATIC_URL = 'static/'
 STATIC_URL = 'static/'
-STATICFILES_DIRS= (os.path.join(BASE_DIR, 'static'),)
-STATIC_ROOT= 'staticfiles/'
+STATICFILES_DIRS= [
+    BASE_DIR / 'staticfiles'
+    ]
+# STATIC_ROOT= 'staticfiles/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -185,4 +188,33 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'bloggingworkshop046@gmail.com'
 EMAIL_HOST_PASSWORD = 'hngn nrxh asps pitt'
-CORS_ALLOW_ALL_ORIGINS= True
+CORS_ORIGINS_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=120),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    # 'JWT_EXPIRATION_DELTA':datetime.timedelta(days=2),
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    # 'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+
+    'JTI_CLAIM': 'jti',
+    'USER_ID_FIELD': 'uuid',
+    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+}
