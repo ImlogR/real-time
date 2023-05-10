@@ -8,11 +8,11 @@ from authentication.models import CustomUser
 
 def index(request):
     groups= GroupModel.objects.all()
-    coins= Coin.objects.filter(owner= request.user)
-    if request.user.is_authenticated:
-        receivers= CustomUser.objects.exclude(email= request.user.email)
-    else:
-        receivers= CustomUser.objects.all()
+    # coins= Coin.objects.filter(owner= request.user)
+    # if request.user.is_authenticated:
+        # receivers= CustomUser.objects.exclude(email= request.user.email)
+    # else:
+        # receivers= CustomUser.objects.all()
     if request.method== 'POST':
         group_name= request.POST['group_name']
         group_slug= slugify(request.POST['group_name'])
@@ -27,7 +27,8 @@ def index(request):
 
 
     else:
-        return render(request, "rtc_app/index.html", {'groups': groups, 'coins':coins, 'receivers':receivers})
+        # return render(request, "rtc_app/index.html", {'groups': groups, 'coins':coins, 'receivers':receivers})
+        return render(request, "rtc_app/index.html", {'groups': groups})
 
 def lobby(request, group_name):
     group_slug= slugify(group_name)
