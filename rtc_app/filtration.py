@@ -2,7 +2,7 @@ from better_profanity import profanity
 from collections import Counter
 
 def word_filter(sentence):
-    profanity.load_censor_words_from_file('/home/imlog/Downloads/abusive_words.txt')
+    # profanity.load_censor_words_from_file('/home/imlog/Downloads/abusive_words.txt')
     # return profanity.contains_profanity(sentence)
     return profanity.censor(sentence)
 
