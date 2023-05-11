@@ -174,21 +174,21 @@
 
   let transaction_form = document.getElementById("transaction_form");
 
-  transaction_form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    let receiver = e.target.receiver.value;
-    let coin = e.target.coin.value;
-    console.log(receiver);
-    console.log(coin);
-    dataSocket.send(
-      JSON.stringify({
-        receiver: receiver,
-        coin: coin,
-      })
-    );
-    // console.log(data_to_send)
-    transaction_form.reset();
-  });
+  // transaction_form.addEventListener("submit", (e) => {
+  //   e.preventDefault();
+  //   let receiver = e.target.receiver.value;
+  //   let coin = e.target.coin.value;
+  //   console.log(receiver);
+  //   console.log(coin);
+  //   dataSocket.send(
+  //     JSON.stringify({
+  //       receiver: receiver,
+  //       coin: coin,
+  //     })
+  //   );
+  //   // console.log(data_to_send)
+  //   transaction_form.reset();
+  // });
 
   laplaceSocket.onerror = function (e) {
     console.log("Error on laplae server", e);
