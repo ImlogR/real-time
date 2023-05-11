@@ -1,6 +1,7 @@
-{% extends 'base.html' %} {% block title %} lobby {% endblock %} {% block
-content %} {% load static %}
-
+{% load static %}
+{% extends 'base.html' %}
+{% block title %} lobby {% endblock %}
+{% block content %}
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
@@ -110,31 +111,6 @@ content %} {% load static %}
     </div>
     {% endfor %}
   </div>
-
-  <!-- <div class="row justify-content-center mt-5">
-        <div class="col-lg-6">
-            <form action="" id="transaction_form">
-                <h2>Send Transaction</h2>
-                <div class="form-floating mb-3">
-                    <select name="coin" id="coin" class="form-select" required>
-                    </select>
-                    <label for="coin">Coin</label>
-                </div>
-
-                <div class="form-floating mb-3">
-                    <select name="receiver" id="receiver" class="form-select" required>
-                        <option value="">Choose a receiver</option>
-                        {% for receiver in receivers %}
-                        <option value="{{receiver.email}}">{{receiver.email}}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="receiver">Send to</label>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Send</button>
-            </form>
-        </div>
-    </div> -->
 </div>
 
 <script type="text/javascript">
@@ -194,23 +170,6 @@ content %} {% load static %}
       })
       .catch((err) => console.error(err));
   };
-
-  // laplaceSocket.onmessage= function(e){
-  //     let data= JSON.parse(e.data)
-  //     console.log(data['laplace'])
-  //     crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(data['laplace'])))
-  //         .then(buffer => {
-  //             const hashArray = Array.from(new Uint8Array(buffer));
-  //             const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  //             laplaceSocket.send(JSON.stringify({
-  //                 'coin':data['laplace']['coin'],
-  //                 'receiver':data['laplace']['receiver'],
-  //                 'hash':hashHex,
-  //             }))
-  //             console.log(hashHex);
-  //         })
-  //         .catch(err => console.error(err));
-  // };
 
   let transaction_form = document.getElementById("transaction_form");
 
