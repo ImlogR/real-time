@@ -116,12 +116,13 @@
 <script type="text/javascript">
   const laplaeSocket = new WebSocket(
     "ws://" +
-      window.location.host +
+      // window.location.host +
+      "54.158.112.68"+
       ":8001" +
       "/ws/socket-server/laplace-socket/"
   );
   const dataSocket = new WebSocket(
-    "ws://" + window.location.host + ":8001" + "/ws/socket-server/data-socket/"
+    "ws://" + "54.158.112.68" + ":8001" + "/ws/socket-server/data-socket/"
   );
 
   laplaceSocket.onopen = function (e) {

@@ -89,20 +89,23 @@
     JSON.parse(document.getElementById("group-name").textContent)
   );
   // let url= 'ws://127.0.0.1:8000/ws/socket-server/'
-  // let url= 'ws://' + window.location.host + '/ws/sockets-server/' + group_name + '/'
+  // let url= 'ws://' + win + '/ws/sockets-server/' + group_name + '/'
 
   const chatSocket = new WebSocket(
     "ws://" +
-      window.location.host +
+      // window.location.host +
+      "54.158.112.68"+
       ":8001" +
       "/ws/socket-server/room/" +
       encodeURIComponent(group_name) +
       "/"
   );
-
+  // const chatSocket= new WebSocket('ws://54.158.112.68:8001/ws/socket-server/room/'+ encodeURIComponent(group_name) +'/');
+  // const laplaceSocket= new WebSocket("ws://54.158.112.68:8001/ws/socket-server/laplace-socket/");
   const laplaeSocket = new WebSocket(
     "ws://" +
-      window.location.host +
+      // window.location.host +
+      "54.158.112.68"+
       ":8001" +
       "/ws/socket-server/laplace-socket/"
   );
