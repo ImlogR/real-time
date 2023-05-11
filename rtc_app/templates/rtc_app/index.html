@@ -138,11 +138,14 @@ content %} {% load static %}
 </div>
 
 <script type="text/javascript">
-  const laplaceSocket = new WebSocket(
-    "ws://127.0.0.1/ws/socket-server/laplace-socket/"
+  const laplaeSocket = new WebSocket(
+    "ws://" +
+      window.location.host +
+      ":8001" +
+      "/ws/socket-server/laplace-socket/"
   );
   const dataSocket = new WebSocket(
-    "ws://127.0.0.1/ws/socket-server/data-socket/"
+    "ws://" + window.location.host + ":8001" + "/ws/socket-server/data-socket/"
   );
 
   laplaceSocket.onopen = function (e) {
