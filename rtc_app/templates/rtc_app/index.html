@@ -1,44 +1,48 @@
-{% extends 'base.html' %}
-{% block title %}
-lobby
-{% endblock %}
-{% block content %}
-
-{% load static %}
+{% extends 'base.html' %} {% block title %} lobby {% endblock %} {% block
+content %} {% load static %}
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="{% static 'images/download.jpeg' %}" alt="Group Chat Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
-            Group Chat
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="">Logout</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="">Login</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img
+        src="{% static 'images/download.jpeg' %}"
+        alt="Group Chat Logo"
+        width="30"
+        height="30"
+        class="d-inline-block align-text-top me-2"
+      />
+      Group Chat
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="">Login</a>
+        </li>
+        {% endif %}
+      </ul>
     </div>
+  </div>
 </nav>
 
-
 <div class="container">
-
-
-
-    <!-- <div class="row justify-content-center py-5">
+  <!-- <div class="row justify-content-center py-5">
         <div class="col-lg-6">
             <form action="" method="post" class="form">
                 {% csrf_token %}
@@ -65,44 +69,49 @@ lobby
     </div>
     {% endfor %} -->
 
+  <div class="h2 my-4">Chat Groups</div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="card shadow-lg position-relative">
+        <span
+          class="badge badge-danger position-absolute"
+          style="top: -0.5rem; left: 1rem"
+        >
+          <i class="fa-solid fa-star"></i
+        ></span>
 
-    <div class="h2 my-4">Chat Groups</div>
-    <div class="row">
-
-        <div class="col-lg-3">
-            <div class="card shadow-lg position-relative">
-               
-                <span class="badge badge-danger position-absolute" style="top:-0.5rem; left: 1rem;"> <i class="fa-solid fa-star"></i></span>
-                
-
-                <span class="badge badge-success position-absolute" style="top:-0.5rem; right: 1rem;">123+ online</span>
-                <div class="card-body">
-                    <div class="card-title h4 mb-4">Student Network</div>
-                    <a class="btn btn-primary btn-sm">Enter Group</a>
-                </div>
-            </div>
+        <span
+          class="badge badge-success position-absolute"
+          style="top: -0.5rem; right: 1rem"
+          >123+ online</span
+        >
+        <div class="card-body">
+          <div class="card-title h4 mb-4">Student Network</div>
+          <a class="btn btn-primary btn-sm">Enter Group</a>
         </div>
-
-        {% for group in groups %}
-        <div class="col-lg-3 mb-5">
-            <div class="card shadow-lg position-relative">
-                <span class="badge badge-success position-absolute" style="top:-0.5rem; right: 1rem;">123+ online</span>
-                <div class="card-body">
-                    <div class="card-title h4 mb-4">{{group.name}}</div>
-                    <a href="/{{group.slug}}" class="btn btn-primary btn-sm">Enter Group</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-
-      
-
-      
+      </div>
     </div>
 
+    {% for group in groups %}
+    <div class="col-lg-3 mb-5">
+      <div class="card shadow-lg position-relative">
+        <span
+          class="badge badge-success position-absolute"
+          style="top: -0.5rem; right: 1rem"
+          >123+ online</span
+        >
+        <div class="card-body">
+          <div class="card-title h4 mb-4">{{group.name}}</div>
+          <a href="/{{group.slug}}" class="btn btn-primary btn-sm"
+            >Enter Group</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 
-
-    <!-- <div class="row justify-content-center mt-5">
+  <!-- <div class="row justify-content-center mt-5">
         <div class="col-lg-6">
             <form action="" id="transaction_form">
                 <h2>Send Transaction</h2>
@@ -128,90 +137,102 @@ lobby
     </div> -->
 </div>
 
-
 <script type="text/javascript">
+  const laplaceSocket = new WebSocket(
+    "ws://127.0.0.1/ws/socket-server/laplace-socket/"
+  );
+  const dataSocket = new WebSocket(
+    "ws://127.0.0.1/ws/socket-server/data-socket/"
+  );
 
-    const laplaceSocket = new WebSocket('ws://13.212.85.175:8000/ws/socket-server/laplace-socket/')
-    const dataSocket = new WebSocket('ws://13.212.85.175:8000/ws/socket-server/data-socket/')
+  laplaceSocket.onopen = function (e) {
+    console.log("laplace ws opened....");
+  };
+  laplaceSocket.onmessage = function (e) {
+    data = JSON.parse(e.data);
+    console.log(data);
+    let coins = data.coins;
+    let select = document.getElementById("coin");
+    select.innerHTML = "";
+    coins.forEach((coin) => {
+      let option = document.createElement("option");
+      option.value = coin.coin_id;
+      option.id = coin.coin_id;
+      option.text = coin.coin_id;
+      select.add(option);
+    });
+  };
 
-    laplaceSocket.onopen = function (e) {
-        console.log('laplace ws opened....')
-    };
-    laplaceSocket.onmessage = function (e) {
-        data = JSON.parse(e.data)
-        console.log(data)
-        let coins = data.coins;
-        let select = document.getElementById("coin");
-        select.innerHTML = "";
-        coins.forEach((coin) => {
-            let option = document.createElement("option");
-            option.value = coin.coin_id;
-            option.id = coin.coin_id;
-            option.text = coin.coin_id;
-            select.add(option);
-        });
-    }
+  dataSocket.onopen = function (e) {
+    console.log("data ws opened....");
+  };
 
-    dataSocket.onopen = function (e) {
-        console.log('data ws opened....')
-    };
+  dataSocket.onmessage = function (e) {
+    let data = JSON.parse(e.data);
+    console.log("data from data consumer", data);
+    crypto.subtle
+      .digest(
+        "SHA-256",
+        new TextEncoder().encode(JSON.stringify(data["laplace"]))
+      )
+      .then((buffer) => {
+        const hashArray = Array.from(new Uint8Array(buffer));
+        const hashHex = hashArray
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+        laplaceSocket.send(
+          JSON.stringify({
+            coin: data["laplace"]["coin"],
+            receiver: data["laplace"]["receiver"],
+            hash: hashHex,
+          })
+        );
+        console.log(hashHex);
+      })
+      .catch((err) => console.error(err));
+  };
 
-    dataSocket.onmessage = function (e) {
-        let data = JSON.parse(e.data)
-        console.log("data from data consumer", data)
-        crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(data['laplace'])))
-            .then(buffer => {
-                const hashArray = Array.from(new Uint8Array(buffer));
-                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-                laplaceSocket.send(JSON.stringify({
-                    'coin': data['laplace']['coin'],
-                    'receiver': data['laplace']['receiver'],
-                    'hash': hashHex,
-                }))
-                console.log(hashHex);
-            })
-            .catch(err => console.error(err));
-    };
+  // laplaceSocket.onmessage= function(e){
+  //     let data= JSON.parse(e.data)
+  //     console.log(data['laplace'])
+  //     crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(data['laplace'])))
+  //         .then(buffer => {
+  //             const hashArray = Array.from(new Uint8Array(buffer));
+  //             const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  //             laplaceSocket.send(JSON.stringify({
+  //                 'coin':data['laplace']['coin'],
+  //                 'receiver':data['laplace']['receiver'],
+  //                 'hash':hashHex,
+  //             }))
+  //             console.log(hashHex);
+  //         })
+  //         .catch(err => console.error(err));
+  // };
 
-    // laplaceSocket.onmessage= function(e){
-    //     let data= JSON.parse(e.data)
-    //     console.log(data['laplace'])
-    //     crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(data['laplace'])))
-    //         .then(buffer => {
-    //             const hashArray = Array.from(new Uint8Array(buffer));
-    //             const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    //             laplaceSocket.send(JSON.stringify({
-    //                 'coin':data['laplace']['coin'],
-    //                 'receiver':data['laplace']['receiver'],
-    //                 'hash':hashHex,
-    //             }))
-    //             console.log(hashHex);
-    //         })
-    //         .catch(err => console.error(err));
-    // };
+  let transaction_form = document.getElementById("transaction_form");
 
-    let transaction_form = document.getElementById('transaction_form');
+  transaction_form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let receiver = e.target.receiver.value;
+    let coin = e.target.coin.value;
+    console.log(receiver);
+    console.log(coin);
+    dataSocket.send(
+      JSON.stringify({
+        receiver: receiver,
+        coin: coin,
+      })
+    );
+    // console.log(data_to_send)
+    transaction_form.reset();
+  });
 
-    transaction_form.addEventListener('submit', (e) => {
-        e.preventDefault()
-        let receiver = e.target.receiver.value
-        let coin = e.target.coin.value
-        console.log(receiver)
-        console.log(coin)
-        dataSocket.send(JSON.stringify({
-            'receiver': receiver,
-            'coin': coin
-        }))
-        // console.log(data_to_send)
-        transaction_form.reset()
-    })
-
-    laplaceSocket.onerror = function (e) {
-        console.log('Error on laplae server', e)
-    };
-    laplaceSocket.onclose = function (e) {
-        console.log('laplace socket closed', e)
-    };
+  laplaceSocket.onerror = function (e) {
+    console.log("Error on laplae server", e);
+  };
+  laplaceSocket.onclose = function (e) {
+    console.log("laplace socket closed", e);
+  };
 </script>
 
 {% endblock %}

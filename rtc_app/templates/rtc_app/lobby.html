@@ -1,6 +1,4 @@
-{% extends 'dashboard-base.html' %}
-{% block title %}
-{{group_name}} - Chat Room
+{% extends 'dashboard-base.html' %} {% block title %} {{group_name}} - Chat Room
 {% endblock %}
 
 <!--  -->
@@ -8,116 +6,126 @@
 <!--  -->
 
 <style>
-    html
-    {
-        overflow-y: hidden;
-    }
-    .avatar img {
-        height: 1.5rem;
-        width: 1.5rem;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 50%;
-    }
+  html {
+    overflow-y: hidden;
+  }
+  .avatar img {
+    height: 1.5rem;
+    width: 1.5rem;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+  }
 
-    html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
 
-.my-div {
-  height: calc(100vh - 17px); /* assuming a scrollbar width of 17px */
-}
-
+  .my-div {
+    height: calc(100vh - 17px); /* assuming a scrollbar width of 17px */
+  }
 </style>
 <!--  -->
 {%endblock %}
 <!--  -->
-{% block content %}
-{{group_name | json_script:"group-name"}}
-
+{% block content %} {{group_name | json_script:"group-name"}}
 
 <div class="row">
-        <div class="mb-4" style="height:1100px; overflow-x: hidden;">
-            {% for chat in chats %}
-            <div class="d-flex py-3 px-3">
-                <div class="avatar me-2">
-                    <img src="https://images.unsplash.com/photo-1487147264018-f937fba0c817?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                        alt="">
-                </div>
-                <div class="message">
-                    <p class="mb-0">
-                        <span class="fw-bold text-muted">{{ chat.sent_by }}</span>
-                        <br>
-                        <span style="font-size: 1.4rem">{{ chat }}</span>
-                    </p>
-                </div>
-            </div>
-            <hr class="m-0">
-            {% endfor %}
+  <div class="mb-4" style="height: 1100px; overflow-x: hidden">
+    {% for chat in chats %}
+    <div class="d-flex py-3 px-3">
+      <div class="avatar me-2">
+        <img
+          src="https://images.unsplash.com/photo-1487147264018-f937fba0c817?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+          alt=""
+        />
+      </div>
+      <div class="message">
+        <p class="mb-0">
+          <span class="fw-bold text-muted">{{ chat.sent_by }}</span>
+          <br />
+          <span style="font-size: 1.4rem">{{ chat }}</span>
+        </p>
+      </div>
+    </div>
+    <hr class="m-0" />
+    {% endfor %}
 
-            <div id="message" style="height:80%; overflow-y: scroll;"></div>
+    <div id="message" style="height: 80%; overflow-y: scroll"></div>
 
-
-        <div style=" height:20%; width: 100%; padding:0.5rem;" >
-            <form action="" id="form" class="px-3">
-                <div class="input-group">
-                    <input type="text" name="message" class="form-control p-4"
-                        placeholder="Type and press Enter to send ...{{group_name}}">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary btn-lg h-100">Send</button>
-                    </div>
-                </div>
-            </form>
+    <div style="height: 20%; width: 100%; padding: 0.5rem">
+      <form action="" id="form" class="px-3">
+        <div class="input-group">
+          <input
+            type="text"
+            name="message"
+            class="form-control p-4"
+            placeholder="Type and press Enter to send ...{{group_name}}"
+          />
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary btn-lg h-100">
+              Send
+            </button>
+          </div>
         </div>
-</div>
+      </form>
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript">
-    const slugify = str =>
-        str
-            .toLowerCase()
-            .trim()
-            .replace(/[^\w\s-]/g, '')
-            .replace(/[\s_-]+/g, '-')
-            .replace(/^-+|-+$/g, '');
+  const slugify = (str) =>
+    str
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/[\s_-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
 
-    const group_name = slugify(JSON.parse(document.getElementById("group-name").textContent));
-    // let url= 'ws://127.0.0.1:8000/ws/socket-server/'
-    // let url= 'ws://' + window.location.host + '/ws/sockets-server/' + group_name + '/'
+  const group_name = slugify(
+    JSON.parse(document.getElementById("group-name").textContent)
+  );
+  // let url= 'ws://127.0.0.1:8000/ws/socket-server/'
+  // let url= 'ws://' + window.location.host + '/ws/sockets-server/' + group_name + '/'
 
-    const chatSocket = new WebSocket('ws://13.212.85.175:8000/ws/socket-server/room/' + encodeURIComponent(group_name) + '/')
+  const chatSocket = new WebSocket(
+    "ws://127.0.0.1/ws/socket-server/room/" +
+      encodeURIComponent(group_name) +
+      "/"
+  );
 
-    const laplaeSocket = new WebSocket('ws://13.212.85.175:8000/ws/socket-server/laplace-socket/')
+  const laplaeSocket = new WebSocket(
+    "ws://127.0.0.1/ws/socket-server/laplace-socket/"
+  );
 
-    chatSocket.onopen = function (e) {
-        console.log('ws opened....')
-        // chatSocket.send("Message from client!!")
-    }
+  chatSocket.onopen = function (e) {
+    console.log("ws opened....");
+    // chatSocket.send("Message from client!!")
+  };
 
-    laplaeSocket.onopen = function (e) {
-        console.log('laplace socket opened..')
+  laplaeSocket.onopen = function (e) {
+    console.log("laplace socket opened..");
+  };
+  laplaeSocket.onmessage = function (e) {
+    console.log("message from laplace server", e);
+  };
+  // laplaceSocket.onmessage= function(e){
+  //     console.log('message recieved from main server!!', e)
+  // }
 
-    }
-    laplaeSocket.onmessage = function (e) {
-        console.log('message from laplace server', e)
-
-    }
-    // laplaceSocket.onmessage= function(e){
-    //     console.log('message recieved from main server!!', e)
-    // }
-
-    chatSocket.onmessage = function (e) {
-        console.log('message recieved from server!!', e)
-        // let data= e.data
-        let data = JSON.parse(e.data)
-        // let messages= document.getElementById('message').innerText= data.message
-        let messages = document.getElementById('message')
-        let newDiv = document.createElement("div")
-        newDiv.classList.add('message')
-        // newDiv.innerHTML = `<p>${data.message.user + ' : ' + data.message.message}</p>`
-        newDiv.innerHTML= `
+  chatSocket.onmessage = function (e) {
+    console.log("message recieved from server!!", e);
+    // let data= e.data
+    let data = JSON.parse(e.data);
+    // let messages= document.getElementById('message').innerText= data.message
+    let messages = document.getElementById("message");
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("message");
+    // newDiv.innerHTML = `<p>${data.message.user + ' : ' + data.message.message}</p>`
+    newDiv.innerHTML = `
         <div class="d-flex py-3 px-3">
                 <div class="avatar me-2">
                     <img src="https://images.unsplash.com/photo-1487147264018-f937fba0c817?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
@@ -131,31 +139,33 @@
                     </p>
                 </div>
             </div>
-            <hr class="m-0">`
-        messages.insertAdjacentElement('beforeend', newDiv)
-        console.log(data)
-    }
-    chatSocket.onerror = function (e) {
-        console.log('Error on server', e)
-    }
-    chatSocket.onclose = function (e) {
-        console.log('socket closed', e)
-    }
+            <hr class="m-0">`;
+    messages.insertAdjacentElement("beforeend", newDiv);
+    console.log(data);
+  };
+  chatSocket.onerror = function (e) {
+    console.log("Error on server", e);
+  };
+  chatSocket.onclose = function (e) {
+    console.log("socket closed", e);
+  };
 
-    let form = document.getElementById('form')
-    form.addEventListener('submit', (e) => {
-        e.preventDefault()
-        let message = e.target.message.value
-        chatSocket.send(JSON.stringify({
-            'message': message
-        }))
-        form.reset()
-    })
+  let form = document.getElementById("form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let message = e.target.message.value;
+    chatSocket.send(
+      JSON.stringify({
+        message: message,
+      })
+    );
+    form.reset();
+  });
 
-        // or using events as::
-        // chatSocket.addEventListener('open', ()=>{
-        //     console.log('ws opened....')
-        //     chatSocket.send("Message from client!!")
-        // })
+  // or using events as::
+  // chatSocket.addEventListener('open', ()=>{
+  //     console.log('ws opened....')
+  //     chatSocket.send("Message from client!!")
+  // })
 </script>
 {% endblock %}
