@@ -128,20 +128,20 @@
   laplaceSocket.onopen = function (e) {
     console.log("laplace ws opened....");
   };
-  laplaceSocket.onmessage = function (e) {
-    data = JSON.parse(e.data);
-    console.log(data);
-    let coins = data.coins;
-    let select = document.getElementById("coin");
-    select.innerHTML = "";
-    coins.forEach((coin) => {
-      let option = document.createElement("option");
-      option.value = coin.coin_id;
-      option.id = coin.coin_id;
-      option.text = coin.coin_id;
-      select.add(option);
-    });
-  };
+  // laplaceSocket.onmessage = function (e) {
+  //   data = JSON.parse(e.data);
+  //   console.log(data);
+  //   let coins = data.coins;
+  //   let select = document.getElementById("coin");
+  //   select.innerHTML = "";
+  //   coins.forEach((coin) => {
+  //     let option = document.createElement("option");
+  //     option.value = coin.coin_id;
+  //     option.id = coin.coin_id;
+  //     option.text = coin.coin_id;
+  //     select.add(option);
+  //   });
+  // };
 
   dataSocket.onopen = function (e) {
     console.log("data ws opened....");
