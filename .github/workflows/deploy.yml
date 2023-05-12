@@ -8,7 +8,7 @@ on:
   pull_request:
     branches: ["prod"]
 
-# Authenticate to the the server via ssh key
+# Authenticate to the the server via ssh 
 # and run our deployment script
 jobs:
   deploy:
