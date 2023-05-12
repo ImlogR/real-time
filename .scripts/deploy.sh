@@ -6,6 +6,7 @@ echo "Deployment started ..."
 # Pull the latest version of the app
 echo "Copying New changes...."
 git pull git@github.com:ImlogR/real-time.git prod
+# git pull git@github.com:ImlogR/real-time.git prod
 echo "New changes copied to server !"
 # git@github.com:ImlogR/real-time.git
 # Activate Virtual Env
