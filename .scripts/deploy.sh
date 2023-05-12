@@ -27,7 +27,7 @@ echo "New changes copied to server !"
 # python manage.py makemigrations
 # python manage.py migrate
 
-# Deactivate Virtual Env
+# Deactivate Virtual En
 # deactivate
 # echo "Virtual env 'mb' Deactivated !"
 
