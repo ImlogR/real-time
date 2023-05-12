@@ -11,7 +11,7 @@ echo "New changes copied to server !"
 # Activate Virtual Env
 #Syntax:- source virtual_env_name/bin/activate
 # source mb/bin/activate
-# echo "Virtual env 'mb' Activated !"
+# echo "Virtual env 'mb' Activated "
 
 # echo "Clearing Cache..."
 # python manage.py clean_pyc
