@@ -24,3 +24,6 @@ jobs:
           key: ${{ secrets.SSHKEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: "cd /home/ubuntu/websockets/src && ./.scripts/deploy.sh"
+        env:
+          DEFAULT_BRANCH: prod
+          GITHUB_TOKEN: ${{ secrets.PAT }}
