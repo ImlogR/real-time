@@ -5,7 +5,7 @@ from rest_framework import routers
 
 router= routers.DefaultRouter()
 
-router.register(r'login', LoginViewSet, basename='login')
+# router.register(r'login', LoginViewSet, basename='login')
 router.register(r'register', UserRegistrationViewset, basename='User')
 
 
