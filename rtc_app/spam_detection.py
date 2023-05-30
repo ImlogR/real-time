@@ -1,10 +1,10 @@
 from .models import ChatModel
 from django.utils import timezone
 from datetime import timedelta
-import spacy
-import random
-from spacy.util import minibatch, compounding
-from spacy.training.example import Example
+# import spacy
+# import random
+# from spacy.util import minibatch, compounding
+# from spacy.training.example import Example
 
 def spammer(user):
     now= timezone.now()
