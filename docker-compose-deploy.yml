@@ -1,0 +1,73 @@
+version: '3.9'
+
+services:
+  django:
+    build: .
+    container_name: realtime
+    restart: always
+    command:
+      - sh
+      - -c
+      - |
+        uwsgi --socket :9000 --workers 4 --master --enable-threads --module realtime_chat.wsgi
+
+    volumes:
+      - .:/usr/src/app/
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+      - pgdb
+      - redis
+  
+  celery:
+    build: .
+    restart: always
+    command:
+      - sh
+      - -c
+      - |
+        celery -A realtime_chat worker -l INFO &
+        celery -A realtime_chat beat -l INFO
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - django
+      - redis
+
+  proxy:
+    build:
+      context: ./proxy
+    restart: always
+    depends_on: 
+      - django
+    ports:
+      - 80:8000
+    volumes:
+      - static-data:/vol/static
+  
+  pgdb:
+    image: postgres
+    container_name: database
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+  
+  redis:
+    image: "redis:alpine"
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:
+  static-data:
