@@ -87,11 +87,12 @@
     // let url= 'ws://127.0.0.1:8000/ws/socket-server/'
     // let url= 'ws://' + window.location.host + '/ws/sockets-server/' + group_name + '/'
 
-    const chatSocket = new WebSocket('ws://127.0.0.1:8000/ws/socket-server/room/' + encodeURIComponent(group_name) + '/')
-    // const chatSocket = new WebSocket('ws://' + window.location.host +'/ws/socket-server/room/' + encodeURIComponent(group_name) + '/');
+    // const chatSocket = new WebSocket('ws://127.0.0.1:8000/ws/socket-server/room/' + encodeURIComponent(group_name) + '/')
+    const chatSocket = new WebSocket('ws://' + window.location.host +'/ws/socket-server/room/' + encodeURIComponent(group_name) + '/');
 
 
-    const laplaeSocket = new WebSocket('ws://127.0.0.1:8000/ws/socket-server/laplace-socket/')
+    // const laplaeSocket = new WebSocket('ws://127.0.0.1:8000/ws/socket-server/laplace-socket/')
+    const laplaeSocket = new WebSocket('ws://'+ window.location.host +'/ws/socket-server/laplace-socket/')
 
     chatSocket.onopen = function (e) {
         console.log('ws opened....')
